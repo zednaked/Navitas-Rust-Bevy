@@ -88,17 +88,7 @@ fn setup (mut cmd: Commands, mut windows: Query  <&mut Window>){
     ));
 
 
-    let canvas: HtmlCanvasElement = web_sys::window()
-    .unwrap()
-    .document()
-    .unwrap()
-    .query_selector("canvas")
-    .unwrap()
-    .unwrap()
-    .unchecked_into();
-let style = canvas.style();
-style.set_property("width", "100%").unwrap();
-style.set_property("height", "100%").unwrap();
+
    
 }
 
