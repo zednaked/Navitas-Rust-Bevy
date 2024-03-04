@@ -1,0 +1,27 @@
+[package]
+name = "Navitas-Rust-Bevy"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = "0.13.0"
+bevy-inspector-egui = "0.23.2"
+rand = "0.8.4"
+
+extol_sprite_layer = { git = "https://github.com/deifactor/extol_sprite_layer" }
+
+[profile.dev]
+opt-level = 0
+incremental = true
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[workspace]
+resolver = "2"
+
+[target.wasm32-unknown-unknown]
+runner = "wasm-server-runner"
+
+[toolchain]
+channel = "nightly"
