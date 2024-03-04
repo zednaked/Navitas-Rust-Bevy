@@ -75,14 +75,19 @@ fn setup (mut cmd: Commands, mut windows: Query  <&mut Window>){
     
     
     
-    
+    window.resize_constraints = bevy::window::WindowResizeConstraints {
+        min_width: 400.,
+        min_height: 800.,
+        max_width: 400.,
+        max_height: 800.,
+    };
 
     window.prevent_default_event_handling = false;
-    window.resolution.set(400., 900.);
+    window.resolution.set(400., 800.);
     cmd.spawn(Camera2dBundle::default());
     cmd.spawn((Text2dBundle {
         text: Text::from_section(">Navitas< - Rust+Bevy+WASM - v 0.11", TextStyle { color: Color::rgb(50.0, 100.0,155.0) , font_size: 12.0 , ..default()}),
-        transform: Transform::from_translation(Vec3::new(0.,230.,0.)),
+        transform: Transform::from_translation(Vec3::new(0.,430.,0.)),
         ..default() 
     }
     ));
