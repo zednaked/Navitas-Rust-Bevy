@@ -1,18 +1,17 @@
 <!doctype html>
 <html lang="en">
 
-<body style="margin: 0px; display: flex; justify-content: flex-start; align-items: flex-start;">
+<body style="margin: 0px;">
+  <canvas id="Bevy Canvas" width="1280" height="720"></canvas>
   <script type="module">
-    import init from './Navitas-Rust-Bevy.js'
+    import init from './mygame.js'
 
     init().catch((error) => {
       if (!error.message.startsWith("Using exceptions for control flow, don't mind me. This isn't actually an error!")) {
         throw error;
       }
     });
-    
   </script>
-  <canvas id="Bevy Canvas" width="600" height="900" ></canvas>
 </body>
 
 </html>
