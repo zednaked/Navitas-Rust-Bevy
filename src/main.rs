@@ -69,6 +69,7 @@ fn main() {
 fn setup (mut cmd: Commands, mut windows: Query  <&mut Window>){ 
 
     let mut window = windows.single_mut();
+    window.canvas = Some ("Bevy Canvas".into());
     window.resolution.set(600., 900.);
     cmd.spawn(Camera2dBundle::default());
     cmd.spawn((Text2dBundle {
