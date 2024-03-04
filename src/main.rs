@@ -72,8 +72,8 @@ fn setup (mut cmd: Commands, mut windows: Query  <&mut Window>){
     window.canvas = Some ("Bevy Canvas".into());
     
     window.resize_constraints = bevy::window::WindowResizeConstraints {
-        min_width: 600.,
-        min_height: 900.,
+        min_width: 400.,
+        min_height: 600.,
         max_width: 600.,
         max_height: 900.,
     };
