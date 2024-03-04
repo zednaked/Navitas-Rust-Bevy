@@ -8,7 +8,9 @@ bevy = "0.13.0"
 bevy-inspector-egui = "0.23.2"
 rand = "0.8.4"
 
+
 extol_sprite_layer = { git = "https://github.com/deifactor/extol_sprite_layer" }
+web-sys = "0.3.67"
 
 [profile.dev]
 opt-level = 0

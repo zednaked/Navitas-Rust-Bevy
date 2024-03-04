@@ -6,7 +6,9 @@ use rand::*;
 use std::time::Duration;
 use bevy::sprite::{MaterialMesh2dBundle, Mesh2dHandle};
 use extol_sprite_layer::{LayerIndex, SpriteLayerPlugin, SpriteLayerOptions};
-
+use web_sys::HtmlCanvasElement;
+use web_sys::Element;
+use web_sys::wasm_bindgen::JsCast;
 
 #[derive(Debug, Copy, Clone, Component, PartialEq, Eq, Hash)]
 enum SpriteLayer {
@@ -88,8 +90,20 @@ fn setup (mut cmd: Commands, mut windows: Query  <&mut Window>){
         transform: Transform::from_translation(Vec3::new(0.,430.,0.)),
         ..default() 
     }
-
     ));
+
+
+    let canvas: HtmlCanvasElement = web_sys::window()
+    .unwrap()
+    .document()
+    .unwrap()
+    .query_selector("canvas")
+    .unwrap()
+    .unwrap()
+    .unchecked_into();
+let style = canvas.style();
+style.set_property("width", "100%").unwrap();
+style.set_property("height", "100%").unwrap();
    
 }
 
