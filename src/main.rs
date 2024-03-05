@@ -76,11 +76,11 @@ fn setup (mut cmd: Commands, mut windows: Query  <&mut Window>){
     window.canvas = Some ("#Bevy_Canvas".into());
     
     let mut my_2d_camera_bundle = Camera2dBundle::default();
-    my_2d_camera_bundle.projection.scaling_mode = ScalingMode::FixedVertical(600.);
+    //my_2d_camera_bundle.projection.scaling_mode = ScalingMode::FixedVertical(1600.);
     
-    
+    window.resizable = false;
     window.prevent_default_event_handling = false;
-    window.resolution.set(400., 600.);
+    window.resolution.set(360., 740.);
     cmd.spawn(my_2d_camera_bundle);
     cmd.spawn((Text2dBundle {
         text: Text::from_section(">Navitas< - Rust+Bevy+WASM - v 0.11", TextStyle { color: Color::rgb(50.0, 100.0,155.0) , font_size: 12.0 , ..default()}),
