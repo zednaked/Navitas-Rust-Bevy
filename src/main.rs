@@ -9,6 +9,8 @@ use extol_sprite_layer::{LayerIndex, SpriteLayerPlugin, SpriteLayerOptions};
 use web_sys::HtmlCanvasElement;
 use web_sys::Element;
 use web_sys::wasm_bindgen::JsCast;
+use bevy::render::camera::ScalingMode;
+
 
 #[derive(Debug, Copy, Clone, Component, PartialEq, Eq, Hash)]
 enum SpriteLayer {
@@ -71,23 +73,18 @@ fn main() {
 fn setup (mut cmd: Commands, mut windows: Query  <&mut Window>){ 
 
     let mut window = windows.single_mut();
-    window.canvas = Some ("Bevy Canvas".into());
+    window.canvas = Some ("#Bevy_Canvas".into());
+    
+    let mut my_2d_camera_bundle = Camera2dBundle::default();
+    my_2d_camera_bundle.projection.scaling_mode = ScalingMode::FixedVertical(600.);
     
     
-    
-    window.resize_constraints = bevy::window::WindowResizeConstraints {
-        min_width: 400.,
-        min_height: 800.,
-        max_width: 400.,
-        max_height: 800.,
-    };
-
     window.prevent_default_event_handling = false;
-    window.resolution.set(400., 800.);
-    cmd.spawn(Camera2dBundle::default());
+    window.resolution.set(400., 600.);
+    cmd.spawn(my_2d_camera_bundle);
     cmd.spawn((Text2dBundle {
         text: Text::from_section(">Navitas< - Rust+Bevy+WASM - v 0.11", TextStyle { color: Color::rgb(50.0, 100.0,155.0) , font_size: 12.0 , ..default()}),
-        transform: Transform::from_translation(Vec3::new(0.,430.,0.)),
+        transform: Transform::from_translation(Vec3::new(0.,230.,0.)),
         ..default() 
     }
     ));
@@ -119,7 +116,7 @@ fn spawna_player (mut cmd: Commands, asset_server: Res<AssetServer>) {
             ..default()
         },
         
-        transform: Transform::from_translation(Vec3::new(0.,-420.,0.)),
+        transform: Transform::from_translation(Vec3::new(0.,-220.,0.)),
         ..default()
     }));
 }
