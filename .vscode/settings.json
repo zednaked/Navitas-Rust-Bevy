@@ -5,6 +5,7 @@
         "[Default Dark+]": {
             "enabled": true // enable for a particular theme
         }
-    }
+    },
+    "svn.ignoreMissingSvnWarning": true
 
 }

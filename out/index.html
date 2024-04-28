@@ -1,65 +1,16 @@
+<!doctype html>
+<html lang="en">
 
+<body style="margin: 0px;">
+  <script type="module">
+    import init from './Hectares.js'
 
-<html>
-  <head>
-    <meta name="viewport" content="width=360, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, interactive-widget=Overlays-content ,  target-densityDpi=device-dpi" />
-    <style>
-      body {
-        margin: 0px;
-
-        overflow: hidden;
-        background: linear-gradient(
-          135deg,
-          white 0%,
-          white 49%,
-          black 49%,
-          black 51%,
-          white 51%,
-          white 100%
-        ) repeat;
-        background-size: 20px 20px;
+    init().catch((error) => {
+      if (!error.message.startsWith("Using exceptions for control flow, don't mind me. This isn't actually an error!")) {
+        throw error;
       }
-      canvas {
-        background-color: #ccc;
-
-  position: absolute;
-  top: 0;
-  
-  left: 0;
-  min-width: 360px;
-  
-
-  right: 0;
-  bottom: 0;
-  
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: auto;
-  margin-bottom: auto;
-  
-
-        
-        
-
-      }
-    </style>
-    <title>Navitas - Rust Version</title>
-  </head>
-  
-  
-
-  <body>
-    
-    
-    <script type="module">
-      import init from './Navitas-Rust-Bevy.js'
-      init()
-    </script>
-    </body>
-
+    });
+  </script>
+</body>
 
 </html>
-
-
-
-

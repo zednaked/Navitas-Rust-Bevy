@@ -43,8 +43,9 @@ e diminuirem de tamanho uma vez como se tivessem pulsando, e
 #![allow(unreachable_patterns)]
 #![allow(for_loops_over_fallibles)]
 
-
+use bevy::math::vec3;
 use bevy::prelude::*;
+use bevy::asset::AssetMetaCheck;
 use bevy::sprite::MaterialMesh2dBundle;
 use bevy::sprite::Mesh2dHandle;
 use bevy_mod_picking::prelude::*;
@@ -53,6 +54,8 @@ use bevy::core_pipeline::bloom::BloomSettings;
 use bevy::core_pipeline::tonemapping::Tonemapping;
 use bevy::ecs::query::QueryFilter;
 use bevy::ecs::query::QueryData;
+use bevy::window::PresentMode;
+use bevy::window::WindowPlugin;
 use rand::*;
 
 const LAYER_0: f32 = 0.0;//FUNDO
@@ -471,16 +474,12 @@ struct eVender();
 
 fn main() {
     let mut app = App::new();
-    app.add_plugins((
-        DefaultPlugins.set(ImagePlugin::default_nearest()),
-        TweeningPlugin,        
-
-        DefaultPickingPlugins,
-    ))
     
+    app.insert_resource(AssetMetaCheck::Never)
+    .add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
+    .add_plugins(TweeningPlugin)
+    .add_plugins(DefaultPickingPlugins)
     .init_state::<AppState>()
-    
-    //----------------------- Eventos
     .add_event::<eSubtraiUmaPlantaInventario>()
     .add_event::<eAdicionaUmaPlantaInventario>()
     .add_event::<eAbreDialogo>()
@@ -498,6 +497,7 @@ fn main() {
     .add_event::<ColheuPlanta>()
 
     //----------------------- Recursos
+    
     .insert_resource(Time::<Fixed>::from_seconds(0.25))
     .insert_resource(Gold(GOLD_INICIAL))
     .insert_resource(Inventario{ itens: Vec::new()})
@@ -577,7 +577,7 @@ fn TelaInicio (
         Resultados, //criar um tipo "Janela" ou tela, e usar um só sistema pra fechar todas
         Animator::new(tween1),
         SpriteBundle {
-            texture: asset_server.load("Hectares/Cards/Misc/Abertura.png"),
+            texture: asset_server.load("./Hectares/Cards/Misc/Abertura.png"),
             sprite: Sprite{
             
                 custom_size: Some(Vec2::new(500.0, 903.0)),
@@ -2338,7 +2338,7 @@ fn AbreMensagem(
             Mensagem,
             Animator::new(tween),
             SpriteBundle {
-                texture: asset_server.load("Hectares/Cards/Misc/Mensagem.png"),
+                texture: asset_server.load("./Hectares/Cards/Misc/Mensagem.png"),
                 sprite: Sprite{
                 
                     custom_size: Some(Vec2::new(458.0, 189.0)),
@@ -2430,7 +2430,7 @@ fn AbrePedidos(
                 "2X Couve Rosa 50z",
                 TextStyle {
                 color: Color::BLACK,
-                font: asset_server.load("Font/PressStart2P.ttf"),
+                font: asset_server.load("./Font/PressStart2P.ttf"),
                 font_size: 20.0,
                 ..default()
                 },
@@ -2470,7 +2470,7 @@ fn AbrePedidos(
             Pedidos,
             Animator::new(tween),
             SpriteBundle {
-                texture: asset_server.load("Hectares/Cards/Pedidos/Pedidos.png"),
+                texture: asset_server.load("./Hectares/Cards/Pedidos/Pedidos.png"),
                 sprite: Sprite{
                 
                     custom_size: Some(Vec2::new(406.0, 708.0)),
@@ -2600,8 +2600,8 @@ fn AbreMercado (
         );
 
         let temptextura = match pode {
-            true => "Hectares/Cards/Mercado/Aberto.png",
-            false => "Hectares/Cards/Mercado/Fechado.png",
+            true => "./Hectares/Cards/Mercado/Aberto.png",
+            false => "./Hectares/Cards/Mercado/Fechado.png",
         };
 
         commands.spawn((
@@ -2639,12 +2639,12 @@ fn AbreMercado (
                 _ => TipoPlantas::CenouraPimenta,
             };
             let TexturaPlantaTemp = match TipoPlantaTemp {
-                TipoPlantas::CouveRosa => "Hectares/Cards/Plantas/Couve Flor/Carta.png",
-                TipoPlantas::Hedrazeba => "Hectares/Cards/Plantas/Hedrazeba/Carta.png",
-                TipoPlantas::GargomiloMiudo => "Hectares/Cards/Plantas/Gargomilo Miudo/Carta.png",
-                TipoPlantas::FolhaGorda => "Hectares/Cards/Plantas/Folha Gorda/Carta.png",
-                TipoPlantas::CenouraPimenta => "Hectares/Cards/Plantas/Cenoura Pimenta/Carta.png",
-                TipoPlantas::FlorAmarela => "Hectares/Cards/Plantas/Flor Amarela/Carta.png",
+                TipoPlantas::CouveRosa => "./Hectares/Cards/Plantas/Couve Flor/Carta.png",
+                TipoPlantas::Hedrazeba => "./Hectares/Cards/Plantas/Hedrazeba/Carta.png",
+                TipoPlantas::GargomiloMiudo => "./Hectares/Cards/Plantas/Gargomilo Miudo/Carta.png",
+                TipoPlantas::FolhaGorda => "./Hectares/Cards/Plantas/Folha Gorda/Carta.png",
+                TipoPlantas::CenouraPimenta => "./Hectares/Cards/Plantas/Cenoura Pimenta/Carta.png",
+                TipoPlantas::FlorAmarela => "./Hectares/Cards/Plantas/Flor Amarela/Carta.png",
             };
     
             let tween = Tween::new(
@@ -2717,7 +2717,7 @@ fn SpawnaAgua (
             Animator::new(tween),                                               
             SpriteBundle {
                 texture: asset_server.load(
-                    "Hectares/Cards/Recurso - Agua.png"),
+                    "./Hectares/Cards/Recurso - Agua.png"),
                 sprite: Sprite{
                 
                     custom_size: Some(Vec2::new(113.0, 154.0)),
@@ -2813,7 +2813,7 @@ fn MovimentaAbelha (
                         let id = commands.spawn ((
                             MateriaPrima(entidade), // a referencia da abelha que esse sprite vai seguir
                             SpriteBundle {
-                                texture: asset_server.load("Hectares/Cards/insetos/Materia Prima.png"),
+                                texture: asset_server.load("./Hectares/Cards/insetos/Materia Prima.png"),
                                 sprite: Sprite{     
                                     custom_size: Some(Vec2::new(30., 30.)),
                                     ..default()
@@ -2855,7 +2855,7 @@ fn MovimentaAbelha (
                             commands.spawn ((
                                 Mel, 
                                 SpriteBundle {
-                                    texture: asset_server.load("Hectares/Cards/insetos/Mel.png"),
+                                    texture: asset_server.load("./Hectares/Cards/insetos/Mel.png"),
                                     sprite: Sprite{     
                                         custom_size: Some(Vec2::new(24., 41.)),
                                         ..default()
@@ -2967,7 +2967,7 @@ fn SpawnaCarta (
 
                 match coin {
                     0 => SpriteBundle {
-                        texture: asset_server.load("Hectares/Cards/Semente - Cenoura Pimenta.png"),
+                        texture: asset_server.load("./Hectares/Cards/Semente - Cenoura Pimenta.png"),
                         sprite: Sprite{
                         
                             custom_size: Some(Vec2::new(113.0, 154.0)),
@@ -2978,7 +2978,7 @@ fn SpawnaCarta (
                     },
                     1 => SpriteBundle {
                         texture: asset_server.load(
-                            "Hectares/Cards/Recurso - Agua.png"),
+                            "./Hectares/Cards/Recurso - Agua.png"),
                         sprite: Sprite{
                         
                             custom_size: Some(Vec2::new(113.0, 154.0)),
@@ -2989,7 +2989,7 @@ fn SpawnaCarta (
                     },
                     2 => SpriteBundle {
                         texture: asset_server.load(
-                            "Hectares/Cards/Recurso - Guano.png"),
+                            "./Hectares/Cards/Recurso - Guano.png"),
                         sprite: Sprite{
                         
                             custom_size: Some(Vec2::new(113.0, 154.0)),
@@ -3000,7 +3000,7 @@ fn SpawnaCarta (
                     },
                     _ => SpriteBundle {
                         texture: asset_server.load(
-                            "Hectares/Cards/Recurso - Guano.png"),
+                            "./Hectares/Cards/Recurso - Guano.png"),
                         sprite: Sprite{
                         
                             custom_size: Some(Vec2::new(113.0, 154.0)),
@@ -3128,20 +3128,20 @@ fn Setup(
     mut eventosMensagem: EventWriter<eAbreMensagem>,
     eventosCos: EventWriter<eSpawnaCosmetico>,
     eventos: EventWriter<eSpawnaCarta>,
+    //mut camera: Query<&mut OrthographicProjection, With<Camera2d>>,
 ) {
     let mut window = windows.single_mut();
+
+    let mut my_2d_camera_bundle = Camera2dBundle::default();
+    //my_2d_camera_bundle.projection.scaling_mode = ScalingMode::FixedVertical(1600.);
+    
+    my_2d_camera_bundle.transform.scale = vec3(1.2,1.2,1.2);
+
     commands.spawn(
         (
-            Camera2dBundle {
-                tonemapping: Tonemapping::AcesFitted,
-            camera: Camera {
-                hdr: true,
-                
-                ..default()
-            },
-            ..default()
-        },
-        BloomSettings::OLD_SCHOOL,
+    my_2d_camera_bundle,
+
+        
     )
 
     );
@@ -3152,7 +3152,7 @@ fn Setup(
 
 commands.spawn (
     SpriteBundle {
-        texture: asset_server.load("Hectares/Cards/Fundo.png"),
+        texture: asset_server.load("./Hectares/Cards/Fundo.png"),
         sprite: Sprite{
         
             custom_size: Some(Vec2::new(503.0, 908.0)),
@@ -3168,7 +3168,7 @@ commands.spawn(TextBundle {
     "            HECTARES 0.1 - by ZeD",
     TextStyle {
     color: Color::WHITE,
-    font: asset_server.load("Font/PressStart2P.ttf"),
+    font: asset_server.load("./Font/PressStart2P.ttf"),
     ..default()
     },
     ),
@@ -3185,7 +3185,7 @@ commands.spawn(
     "1",
     TextStyle {
     color: Color::WHITE,
-    font: asset_server.load("Font/PressStart2P.ttf"),
+    font: asset_server.load("./Font/PressStart2P.ttf"),
     font_size: 20.0,
     ..default()
     },
@@ -3203,7 +3203,7 @@ commands.spawn((
             dindin.to_string(),
             TextStyle {
                 color: Color::BLACK,
-                font: asset_server.load("Font/PressStart2P.ttf"),
+                font: asset_server.load("./Font/PressStart2P.ttf"),
                 font_size: 30.0,
                 ..default()
             },
@@ -3219,7 +3219,7 @@ commands.spawn (
     OverlayCor,
     SpriteBundle {
 
-        texture: asset_server.load("Hectares/Cards/Overlaycor.png"),
+        texture: asset_server.load("./Hectares/Cards/Overlaycor.png"),
         sprite: Sprite{
             color: Color::rgba(0.0, 0.0, 0.0, 0.0), //cor boa para dia
             //color: Color::rgba(0.2, 0.3, 0.9, 1.0), //cor boa para noite
@@ -3245,7 +3245,7 @@ commands.spawn (
 // SOMBRA DA MAO
 commands.spawn (
     (SpriteBundle {
-        texture: asset_server.load("Hectares/Cards/Sombra Mao.png"),
+        texture: asset_server.load("./Hectares/Cards/Sombra Mao.png"),
         sprite: Sprite{     
             color: Color::rgb(0.3, 0.1, 0.1),     
             custom_size: Some(Vec2::new(638.0, 416.0)),
@@ -3258,7 +3258,7 @@ commands.spawn (
 
 commands.spawn ((
     SpriteBundle {
-        texture: asset_server.load("Hectares/Cards/top-agua-cheia.png"),
+        texture: asset_server.load("./Hectares/Cards/top-agua-cheia.png"),
         sprite: Sprite{     
             custom_size: Some(Vec2::new(84.0 /1.2, 93.0/1.2)),
             ..default()
@@ -3274,7 +3274,7 @@ commands.spawn ((
 commands.spawn ((
     Inseto(TipoInseto::Mosca),
     SpriteBundle {
-        texture: asset_server.load("Hectares/Cards/Mosca beliscadora.png"),
+        texture: asset_server.load("./Hectares/Cards/Mosca beliscadora.png"),
         sprite: Sprite{     
             custom_size: Some(Vec2::new(81.0 /2.0, 85.0/2.0)),
             ..default()
@@ -3292,7 +3292,7 @@ commands.spawn ((
 commands.spawn ((
     Relogio(FaseDia::MeioManha),
     SpriteBundle {
-        texture: asset_server.load("Hectares/Cards/Meio da manha.png"),
+        texture: asset_server.load("./Hectares/Cards/Meio da manha.png"),
         sprite: Sprite{     
             custom_size: Some(Vec2::new(83.0 /1.2, 92.0/1.2)),
             ..default()
@@ -3307,7 +3307,7 @@ commands.spawn ((
 
 commands.spawn (
     (SpriteBundle {
-        texture: asset_server.load("Hectares/Cards/top-settings.png"),
+        texture: asset_server.load("./Hectares/Cards/top-settings.png"),
         sprite: Sprite{     
             custom_size: Some(Vec2::new(84.0 / 1.2, 93.0 / 1.2)),
             ..default()
@@ -3322,7 +3322,7 @@ commands.spawn (
 commands.spawn ((
     UIMercado,
     SpriteBundle {
-        texture: asset_server.load("Hectares/Cards/top-dinheiro.png"),
+        texture: asset_server.load("./Hectares/Cards/top-dinheiro.png"),
         sprite: Sprite{     
             custom_size: Some(Vec2::new(241.0 /1.5, 93.0/1.5 )),
             ..default()
@@ -3344,7 +3344,7 @@ for y in -2..6 {
             Slot,
             Selecionado(false),
             SpriteBundle {
-                texture: asset_server.load("Hectares/Cards/Crop OL.png"),
+                texture: asset_server.load("./Hectares/Cards/Crop OL.png"),
                 sprite: Sprite{
                 
                     custom_size: Some(Vec2::new(80., 87.0)),
@@ -3367,7 +3367,7 @@ for y in -2..6 {
                 Ninho,
                 Selecionado(false),
                 SpriteBundle {
-                    texture: asset_server.load("Hectares/Cards/insetos/Hive.png"),
+                    texture: asset_server.load("./Hectares/Cards/insetos/Hive.png"),
                     sprite: Sprite{
                     
                         custom_size: Some(Vec2::new(80., 100.0)),
@@ -3393,7 +3393,7 @@ for y in -2..6 {
 
                 EstadoAbelhaAtual(EstadoAbelha::IndoNinho),
                 SpriteBundle {
-                    texture: asset_server.load("Hectares/Cards/insetos/MQQ.png"),
+                    texture: asset_server.load("./Hectares/Cards/insetos/MQQ.png"),
                     sprite: Sprite{     
                         custom_size: Some(Vec2::new(81.0 /2.0, 85.0/2.0)),
                         ..default()
@@ -3413,7 +3413,17 @@ for y in -2..6 {
 
     }
 }
-window.resolution.set(508., 903.);
+//window.resolution.set(508., 903.); //faz um zoomout pra caber tudo na camera!!!!!!!!!!!!!!!!!!!!
+window.resolution.set(412., 760.);
+window.present_mode = PresentMode::AutoNoVsync;
+window.resizable = false;
+
+
+window.title = "Hectares".to_string();
+
+
+
+
 //eventosMensagem.send(eAbreMensagem());
     
 
