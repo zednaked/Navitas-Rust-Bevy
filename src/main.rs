@@ -43,7 +43,6 @@ e diminuirem de tamanho uma vez como se tivessem pulsando, e
 #![allow(unreachable_patterns)]
 #![allow(for_loops_over_fallibles)]
 
-
 use bevy::prelude::*;
 use bevy::sprite::MaterialMesh2dBundle;
 use bevy::sprite::Mesh2dHandle;
@@ -53,6 +52,8 @@ use bevy::core_pipeline::bloom::BloomSettings;
 use bevy::core_pipeline::tonemapping::Tonemapping;
 use bevy::ecs::query::QueryFilter;
 use bevy::ecs::query::QueryData;
+use bevy::window::PresentMode;
+use bevy::window::WindowPlugin;
 use rand::*;
 
 const LAYER_0: f32 = 0.0;//FUNDO
@@ -471,16 +472,11 @@ struct eVender();
 
 fn main() {
     let mut app = App::new();
-    app.add_plugins((
-        DefaultPlugins.set(ImagePlugin::default_nearest()),
-        TweeningPlugin,        
-
-        DefaultPickingPlugins,
-    ))
     
+    app.add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
+    .add_plugins(TweeningPlugin)
+    .add_plugins(DefaultPickingPlugins)
     .init_state::<AppState>()
-    
-    //----------------------- Eventos
     .add_event::<eSubtraiUmaPlantaInventario>()
     .add_event::<eAdicionaUmaPlantaInventario>()
     .add_event::<eAbreDialogo>()
@@ -3133,15 +3129,15 @@ fn Setup(
     commands.spawn(
         (
             Camera2dBundle {
-                tonemapping: Tonemapping::AcesFitted,
+               // tonemapping: Tonemapping::AcesFitted,
             camera: Camera {
-                hdr: true,
+               // hdr: true,
                 
                 ..default()
             },
             ..default()
         },
-        BloomSettings::OLD_SCHOOL,
+        //BloomSettings::OLD_SCHOOL,
     )
 
     );
@@ -3414,6 +3410,15 @@ for y in -2..6 {
     }
 }
 window.resolution.set(508., 903.);
+window.present_mode = PresentMode::AutoNoVsync;
+window.resizable = false;
+
+
+window.title = "Hectares".to_string();
+
+
+
+
 //eventosMensagem.send(eAbreMensagem());
     
 

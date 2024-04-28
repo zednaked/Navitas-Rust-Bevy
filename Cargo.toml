@@ -4,27 +4,18 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-#bevy = {version = "0.13.1", features = ["dynamic_linking"]}
-#bevy-inspector-egui = "0.23.2"
 rand = "0.8.4"
 bevy_tweening = "0.10"
-#wasm-bindgen = "0.2.73"
-#wasm-bindgen-test = "0.3.0"
-#extol_sprite_layer = { git = "https://github.com/deifactor/extol_sprite_layer" }
 bevy_mod_picking = "0.18.2"
-
-[profile.dev]
-debug = 1
-opt-level = 1
-codegen-units = 1
-incremental = true
-
-
-[profile.dev.package."*"]
-opt-level = 3
 
 [workspace]
 resolver = "2"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
 
 
 [dependencies.bevy]
@@ -47,7 +38,7 @@ features = [
   #"bevy_gizmos",        # Support drawing debug lines and shapes
   "bevy_sprite",        # 2D (sprites) rendering
   "bevy_pbr",           # 3D (physically-based) rendering
-  #"bevy_gltf",          # GLTF 3D assets format support
+  "bevy_gltf",          # GLTF 3D assets format support
   "bevy_text",          # Text/font rendering
   "bevy_ui",            # UI toolkit
   #"animation",          # Animation support
@@ -64,7 +55,7 @@ features = [
   # Platform-specific:
   #"x11",                   # Linux: Support X11 windowing system
   #"android_shared_stdcxx", # Android: use shared C++ library
-  #"webgl2",                # Web: use WebGL2 instead of WebGPU
+  "webgl2",                # Web: use WebGL2 instead of WebGPU
 
   # These are other (non-default) features that may be of interest:
   # (add any of these that you need)
@@ -101,7 +92,7 @@ features = [
   #"bevy_dynamic_plugin",  # (Desktop) support for loading of `DynamicPlugin`s
 
   # Development/Debug features:
-  "dynamic_linking",   # Dynamic linking for faster compile-times
+  #"dynamic_linking",   # Dynamic linking for faster compile-times
   #"trace",             # Enable tracing for performance measurement
   #"detailed_trace",    # Make traces more verbose
   #"trace_tracy",       # Tracing using `tracy`
