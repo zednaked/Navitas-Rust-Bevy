@@ -43,7 +43,10 @@ e diminuirem de tamanho uma vez como se tivessem pulsando, e
 #![allow(unreachable_patterns)]
 #![allow(for_loops_over_fallibles)]
 
+<<<<<<< HEAD
 use bevy::math::vec3;
+=======
+>>>>>>> f16cff0687457d4d9678c7e7532d06f5a3a7dadd
 use bevy::prelude::*;
 use bevy::asset::AssetMetaCheck;
 use bevy::sprite::MaterialMesh2dBundle;
@@ -475,8 +478,12 @@ struct eVender();
 fn main() {
     let mut app = App::new();
     
+<<<<<<< HEAD
     app.insert_resource(AssetMetaCheck::Never)
     .add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
+=======
+    app.add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
+>>>>>>> f16cff0687457d4d9678c7e7532d06f5a3a7dadd
     .add_plugins(TweeningPlugin)
     .add_plugins(DefaultPickingPlugins)
     .init_state::<AppState>()
@@ -3139,9 +3146,22 @@ fn Setup(
 
     commands.spawn(
         (
+<<<<<<< HEAD
     my_2d_camera_bundle,
 
         
+=======
+            Camera2dBundle {
+               // tonemapping: Tonemapping::AcesFitted,
+            camera: Camera {
+               // hdr: true,
+                
+                ..default()
+            },
+            ..default()
+        },
+        //BloomSettings::OLD_SCHOOL,
+>>>>>>> f16cff0687457d4d9678c7e7532d06f5a3a7dadd
     )
 
     );
@@ -3413,8 +3433,12 @@ for y in -2..6 {
 
     }
 }
+<<<<<<< HEAD
 //window.resolution.set(508., 903.); //faz um zoomout pra caber tudo na camera!!!!!!!!!!!!!!!!!!!!
 window.resolution.set(412., 760.);
+=======
+window.resolution.set(508., 903.);
+>>>>>>> f16cff0687457d4d9678c7e7532d06f5a3a7dadd
 window.present_mode = PresentMode::AutoNoVsync;
 window.resizable = false;
 
